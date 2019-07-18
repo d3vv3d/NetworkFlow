@@ -54,6 +54,8 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck
 				return true;
 			}
 		}
+
+		// The suspect
 		// Backward edge
 		if (m_edges[i].m_tail == root && m_edges[i].m_flow > 0 && usedVertices.count(m_edges[i].m_head) == 0) {
 			// There exists a path to t using the current edge 
