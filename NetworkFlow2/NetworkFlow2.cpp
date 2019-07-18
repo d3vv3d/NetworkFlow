@@ -39,9 +39,15 @@ int main()
 	std::vector<Edge> path;
 	int b = INT_MAX;
 	if (graph.depthFirstSearch('s', path, b)) {
+
 		aug(graph, path, b);
 
 		std::cout << graph;
+	}
+
+	std::cout << "\n\npath:\n";
+	for (int i = 0; i < path.size(); i++) {
+		std::cout << path[i] << std::endl;
 	}
 	
 
