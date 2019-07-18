@@ -43,7 +43,7 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, unsigned int& b
 			// There exists a path to t using the current edge 
 			if (depthFirstSearch(m_edges[i].m_tail, path, bottleneck, usedVertices)) {
 				// Add the current edge to the path
-				path.push_back(m_edges[i]);
+				path.insert(path.begin(), m_edges[i]);
 
 				// Check if the bottleneck should be updated & update if necessary
 				unsigned int tmp = m_edges[i].m_capacity - m_edges[i].m_flow;
@@ -62,7 +62,7 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, unsigned int& b
 			// There exists a path to t using the current edge 
 			if (depthFirstSearch(m_edges[i].m_head, path, bottleneck, usedVertices)) {
 				// Add the current edge to the path
-				path.push_back(m_edges[i]);
+				path.insert(path.begin(), m_edges[i]);
 
 				// Check if the bottleneck should be updated & update if necessary
 				unsigned int tmp = m_edges[i].m_flow;

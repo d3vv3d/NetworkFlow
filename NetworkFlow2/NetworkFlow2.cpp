@@ -46,6 +46,11 @@ unsigned int main()
 	while (graph.depthFirstSearch('s', path, b, usedVertices)) {
 		aug(graph, path, b);
 
+		std::cout << "\npath:\n";
+		for (int i = 0; i < path.size(); i++) {
+			std::cout << path[i] << std::endl;
+		}
+
 		// Reset values
 		path.clear();
 		b = UINT_MAX;
