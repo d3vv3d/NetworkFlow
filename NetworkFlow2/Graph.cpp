@@ -17,7 +17,50 @@ void Graph::addEdge(char head, char tail, int capacity) {
 	m_edges.push_back(Edge(head, tail, capacity));
 }
 
+bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck) {
+	// Base case
+	if (root == 't') {
+		return true;
+	}
+	
+	// Imperfect, edges can only connect two vertices not all of them
+	for (int i = 0; i < m_edges.size(); i++) {
+		// Is there a better way to do the Forward and backward edge code?
+		//   I suppose that I could turn the code within the first if statements into a separate function
+		// Forward edge
+		if (m_edges[i].m_head == root && m_edges[i].m_flow < m_edges[i].m_capacity) {
+			// There exists a path to t using the current edge 
+			if (depthFirstSearch(m_edges[i].m_tail, path, bottleneck)) {
+				// Add the current edge to the path
+				path.push_back(m_edges[i]);
 
+				// Check if the bottleneck should be updated & update if necessary
+				int tmp = m_edges[i].m_capacity - m_edges[i].m_flow;
+				if (bottleneck > tmp) {
+					bottleneck = tmp;
+				}
+			}
+		}
+		// Backward edge
+		if (m_edges[i].m_tail == root && m_edges[i].m_flow > 0) {
+			// There exists a path to t using the current edge 
+			if (depthFirstSearch(m_edges[i].m_head, path, bottleneck)) {
+				// Add the current edge to the path
+				path.push_back(m_edges[i]);
+
+				// Check if the bottleneck should be updated & update if necessary
+				int tmp = m_edges[i].m_flow;
+				if (bottleneck > tmp) {
+					bottleneck = tmp;
+				}
+			}
+		}
+
+	}
+
+	// Signals the absence of a path
+	return false;
+}
 
 // Willnot always find a path to t if there is one, needs a dead end case, also this doe not preventy cycles, whoops
 // Do not add edges to result unitl 't' has been reached, also

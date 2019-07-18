@@ -5,7 +5,7 @@
 
 #include "Graph.h"
 
-void aug(Graph& graph, std::vector<Edge> path);
+void aug(Graph& graph, std::vector<Edge> path, int bottleneck);
 
 int main()
 {
@@ -37,7 +37,7 @@ int main()
 	}*/
 
 	std::vector<Edge> path;
-	int b;
+	int b = INT_MAX;
 	graph.depthFirstSearch('s', path, b);
 	aug(graph, path, b);
 

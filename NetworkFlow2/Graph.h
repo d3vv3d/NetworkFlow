@@ -15,7 +15,7 @@ public:
 	void addEdge(char head, char tail, int capacity);
 
 	//std::vector<Edge> depthFirstSearch(char root);
-	bool depthFirstSearch(char root, std::vector<Edge>& path, int bottleneck);
+	bool depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck);
 
 	std::vector<Edge> m_edges;
 
