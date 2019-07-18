@@ -49,6 +49,8 @@ int main()
 		// Reset values
 		path.clear();
 		b = INT_MAX;
+
+		std::cout << std::endl << graph << std::endl;
 	}
 	/*if (graph.depthFirstSearch('s', path, b, usedVertices)) {
 
