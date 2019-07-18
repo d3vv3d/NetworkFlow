@@ -38,7 +38,8 @@ int main()
 
 	std::vector<Edge> path;
 	int b = INT_MAX;
-	if (graph.depthFirstSearch('s', path, b)) {
+	std::set<char> usedVertices;
+	if (graph.depthFirstSearch('s', path, b, usedVertices)) {
 
 		aug(graph, path, b);
 

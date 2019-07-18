@@ -17,7 +17,14 @@ void Graph::addEdge(char head, char tail, int capacity) {
 	m_edges.push_back(Edge(head, tail, capacity));
 }
 
-bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck) {
+bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck, std::set<char> usedVertices) {
+	// Update usedVertices
+	usedVertices.emplace(root);
+	for (std::set<char>::iterator iter = usedVertices.begin(); iter != usedVertices.end(); iter++) {
+		std::cout << *iter << std::endl;
+	}
+	std::cout << std::endl;
+	
 	// Base case
 	if (root == 't') {
 		return true;
@@ -28,9 +35,9 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck
 		// Is there a better way to do the Forward and backward edge code?
 		//   I suppose that I could turn the code within the first if statements into a separate function
 		// Forward edge
-		if (m_edges[i].m_head == root && m_edges[i].m_flow < m_edges[i].m_capacity) {
+		if (m_edges[i].m_head == root && m_edges[i].m_flow < m_edges[i].m_capacity && usedVertices.count(m_edges[i].m_tail) == 0) {
 			// There exists a path to t using the current edge 
-			if (depthFirstSearch(m_edges[i].m_tail, path, bottleneck)) {
+			if (depthFirstSearch(m_edges[i].m_tail, path, bottleneck, usedVertices)) {
 				// Add the current edge to the path
 				path.push_back(m_edges[i]);
 
@@ -42,9 +49,9 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck
 			}
 		}
 		// Backward edge
-		if (m_edges[i].m_tail == root && m_edges[i].m_flow > 0) {
+		if (m_edges[i].m_tail == root && m_edges[i].m_flow > 0 && usedVertices.count(m_edges[i].m_head) == 0) {
 			// There exists a path to t using the current edge 
-			if (depthFirstSearch(m_edges[i].m_head, path, bottleneck)) {
+			if (depthFirstSearch(m_edges[i].m_head, path, bottleneck, usedVertices)) {
 				// Add the current edge to the path
 				path.push_back(m_edges[i]);
 
