@@ -24,11 +24,15 @@ int main()
 	graph.addEdge('c', 't', 5);
 	*/
 
+	/*
 	graph.addEdge('s', 'u', 20);
 	graph.addEdge('s', 'v', 10);
 	graph.addEdge('u', 'v', 30);
 	graph.addEdge('u', 't', 10);
 	graph.addEdge('v', 't', 20);
+	*/
+
+	graph.addEdge('s', 't', 1);
 
 	std::cout << graph;
 
@@ -45,12 +49,12 @@ int main()
 
 		std::cout << graph;
 	}
-
-	std::cout << "\n\npath:\n";
-	for (int i = 0; i < path.size(); i++) {
-		std::cout << path[i] << std::endl;
+	else {
+		std::cout << "\n\npath:\n";
+		for (int i = 0; i < path.size(); i++) {
+			std::cout << path[i] << std::endl;
+		}
 	}
-	
 
 	system("PAUSE");
 

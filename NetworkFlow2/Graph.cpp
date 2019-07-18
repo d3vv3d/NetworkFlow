@@ -65,6 +65,11 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck
 
 	}
 
+	// Base case
+	if (root == 't') {
+		return true;
+	}
+
 	// Signals the absence of a path
 	return false;
 }
