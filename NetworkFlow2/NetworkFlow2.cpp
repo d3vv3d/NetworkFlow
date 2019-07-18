@@ -1,13 +1,13 @@
-// NetworkFlow2.cpp : Defines the entry point for the console application.
+// NetworkFlow2.cpp : Defines the entry pounsigned int for the console application.
 //
 
 #include "stdafx.h"
 
 #include "Graph.h"
 
-void aug(Graph& graph, std::vector<Edge> path, int bottleneck);
+void aug(Graph& graph, std::vector<Edge> path, unsigned int bottleneck);
 
-int main()
+unsigned int main()
 {
 	Graph graph = Graph();
 	/*
@@ -41,14 +41,14 @@ int main()
 	}*/
 
 	std::vector<Edge> path;
-	int b = INT_MAX;
+	unsigned int b = UINT_MAX;
 	std::set<char> usedVertices;
 	while (graph.depthFirstSearch('s', path, b, usedVertices)) {
 		aug(graph, path, b);
 
 		// Reset values
 		path.clear();
-		b = INT_MAX;
+		b = UINT_MAX;
 
 		std::cout << std::endl << graph << std::endl;
 	}
@@ -67,10 +67,10 @@ int main()
     return 0;
 }
 
-void aug(Graph& graph, std::vector<Edge> path, int bottleneck) {
+void aug(Graph& graph, std::vector<Edge> path, unsigned int bottleneck) {
 	// Change the flows
 	graph.m_edges[0].m_flow += bottleneck;
-	for (int i = 1; i < path.size(); i++) {
+	for (unsigned int i = 1; i < path.size(); i++) {
 		// Check if the edge is a forward edge
 		if (graph.m_edges[i - 1].m_tail == graph.m_edges[i].m_head) {
 			graph.m_edges[i].m_flow += bottleneck;
@@ -86,19 +86,19 @@ void aug(Graph& graph, std::vector<Edge> path, int bottleneck) {
 void aug(Graph& graph, std::vector<Edge> path) {
 
 	// Determine the bottleneck
-	int b = path[0].m_capacity - path[0].m_flow;
+	unsigned int b = path[0].m_capacity - path[0].m_flow;
 
-	for (int i = 1; i < path.size(); i++) {
+	for (unsigned int i = 1; i < path.size(); i++) {
 		// Check if the edge is a forward edge
 		if (path[i - 1].m_tail == path[i].m_head) {
-			int tmp = path[i].m_capacity - path[i].m_flow;
+			unsigned int tmp = path[i].m_capacity - path[i].m_flow;
 			if (tmp < b) {
 				b = tmp;
 			}
 		}
 		// Must be a back edge
 		else {
-			int tmp = path[i].m_flow;
+			unsigned int tmp = path[i].m_flow;
 			if (tmp < b) {
 				b = tmp;
 			}
@@ -107,7 +107,7 @@ void aug(Graph& graph, std::vector<Edge> path) {
 
 	// Change the flows
 	path[0].m_flow += b;
-	for (int i = 1; i < path.size(); i++) {
+	for (unsigned int i = 1; i < path.size(); i++) {
 		// Check if the edge is a forward edge
 		if (path[i - 1].m_tail == path[i].m_head) {
 			path[i].m_flow += b;

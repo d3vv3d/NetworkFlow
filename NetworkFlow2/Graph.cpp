@@ -13,11 +13,11 @@ void Graph::addEdge(Edge edge) {
 	m_edges.push_back(edge);
 }
 
-void Graph::addEdge(char head, char tail, int capacity) {
+void Graph::addEdge(char head, char tail, unsigned int capacity) {
 	m_edges.push_back(Edge(head, tail, capacity));
 }
 
-bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck, std::set<char> usedVertices) {
+bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, unsigned int& bottleneck, std::set<char> usedVertices) {
 	// Update usedVertices to prevent cycling
 	usedVertices.emplace(root);
 	/*for (std::set<char>::iterator iter = usedVertices.begin(); iter != usedVertices.end(); iter++) {
@@ -35,9 +35,9 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck
 	}
 	
 	// Imperfect, edges can only connect two vertices not all of them
-	for (int i = 0; i < m_edges.size(); i++) {
+	for (unsigned int i = 0; i < m_edges.size(); i++) {
 		// Is there a better way to do the Forward and backward edge code?
-		//   I suppose that I could turn the code within the first if statements into a separate function
+		//   I suppose that I could turn the code within the first if statements unsigned into a separate function
 		// Forward edge
 		if (m_edges[i].m_head == root && m_edges[i].m_flow < m_edges[i].m_capacity && usedVertices.count(m_edges[i].m_tail) == 0) {
 			// There exists a path to t using the current edge 
@@ -46,7 +46,7 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck
 				path.push_back(m_edges[i]);
 
 				// Check if the bottleneck should be updated & update if necessary
-				int tmp = m_edges[i].m_capacity - m_edges[i].m_flow;
+				unsigned int tmp = m_edges[i].m_capacity - m_edges[i].m_flow;
 				if (bottleneck > tmp) {
 					bottleneck = tmp;
 				}
@@ -65,7 +65,7 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck
 				path.push_back(m_edges[i]);
 
 				// Check if the bottleneck should be updated & update if necessary
-				int tmp = m_edges[i].m_flow;
+				unsigned int tmp = m_edges[i].m_flow;
 				if (bottleneck > tmp) {
 					bottleneck = tmp;
 				}
@@ -88,7 +88,7 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck
 std::vector<Edge> Graph::depthFirstSearch(char root) {
 	std::vector<Edge> result;
 	
-	for (int i = 0; i < m_edges.size(); i++) {
+	for (unsigned int i = 0; i < m_edges.size(); i++) {
 		if (m_edges[i].m_head == root && m_edges[i].m_flow < m_edges[i].m_capacity) {
 			result.push_back(m_edges[i]);
 			std::vector<Edge> tmp = depthFirstSearch(m_edges[i].m_tail);
@@ -100,7 +100,7 @@ std::vector<Edge> Graph::depthFirstSearch(char root) {
 		return result;
 	}
 
-	for (int i = 0; i < m_edges.size(); i++) {
+	for (unsigned int i = 0; i < m_edges.size(); i++) {
 		if (m_edges[i].m_tail == root && m_edges[i].m_flow > 0) {
 			result.push_back(m_edges[i]);
 			std::vector<Edge> tmp = depthFirstSearch(m_edges[i].m_head);

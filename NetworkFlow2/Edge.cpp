@@ -2,7 +2,7 @@
 #include "Edge.h"
 
 
-Edge::Edge(char head, char tail, int capacity) : m_head(head), m_tail(tail), m_capacity(capacity) {}
+Edge::Edge(char head, char tail, unsigned int capacity) : m_head(head), m_tail(tail), m_capacity(capacity) {}
 
 
 Edge::~Edge() {}
