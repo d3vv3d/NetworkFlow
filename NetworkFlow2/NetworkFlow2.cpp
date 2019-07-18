@@ -38,10 +38,12 @@ int main()
 
 	std::vector<Edge> path;
 	int b = INT_MAX;
-	graph.depthFirstSearch('s', path, b);
-	aug(graph, path, b);
+	if (graph.depthFirstSearch('s', path, b)) {
+		aug(graph, path, b);
 
-	std::cout << graph;
+		std::cout << graph;
+	}
+	
 
 	system("PAUSE");
 
