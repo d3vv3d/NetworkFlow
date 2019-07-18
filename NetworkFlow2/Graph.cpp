@@ -18,15 +18,19 @@ void Graph::addEdge(char head, char tail, int capacity) {
 }
 
 bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck, std::set<char> usedVertices) {
-	// Update usedVertices
+	// Update usedVertices to prevent cycling
 	usedVertices.emplace(root);
-	for (std::set<char>::iterator iter = usedVertices.begin(); iter != usedVertices.end(); iter++) {
+	/*for (std::set<char>::iterator iter = usedVertices.begin(); iter != usedVertices.end(); iter++) {
 		std::cout << *iter << std::endl;
 	}
 	std::cout << std::endl;
 	
+	std::cout << "root: " << root << std::endl;
+	*/
+
 	// Base case
 	if (root == 't') {
+		//std::cout << "WHA?" << std::endl;
 		return true;
 	}
 	
@@ -46,6 +50,8 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck
 				if (bottleneck > tmp) {
 					bottleneck = tmp;
 				}
+
+				return true;
 			}
 		}
 		// Backward edge
@@ -60,14 +66,11 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, int& bottleneck
 				if (bottleneck > tmp) {
 					bottleneck = tmp;
 				}
+
+				return true;
 			}
 		}
 
-	}
-
-	// Base case
-	if (root == 't') {
-		return true;
 	}
 
 	// Signals the absence of a path
