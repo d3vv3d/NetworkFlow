@@ -10,7 +10,7 @@ void aug(Graph& graph, std::vector<Edge*> path, unsigned int bottleneck);
 unsigned int main()
 {
 	Graph graph = Graph();
-	/*
+	
 	graph.addEdge('s', 'a', 10);
 	graph.addEdge('s', 'b', 3);
 	graph.addEdge('s', 'd', 1);
@@ -22,15 +22,15 @@ unsigned int main()
 	graph.addEdge('d', 'c', 3);
 	graph.addEdge('d', 't', 10);
 	graph.addEdge('c', 't', 5);
-	*/
-
 	
+
+	/*
 	graph.addEdge('s', 'u', 20);
 	graph.addEdge('s', 'v', 10);
 	graph.addEdge('u', 'v', 30);
 	graph.addEdge('u', 't', 10);
 	graph.addEdge('v', 't', 20);
-	
+	*/
 
 	//graph.addEdge('s', 't', 1);
 
@@ -46,16 +46,16 @@ unsigned int main()
 	while (graph.depthFirstSearch('s', path, b, usedVertices)) {
 		aug(graph, path, b);
 
-		std::cout << "\npath:\n";
+		/*std::cout << "\npath:\n";
 		for (int i = 0; i < path.size(); i++) {
 			std::cout << *path[i] << std::endl;
-		}
+		}*/
 
 		// Reset values
 		path.clear();
 		b = UINT_MAX;
 
-		std::cout << std::endl << graph << std::endl;
+		//std::cout << std::endl << graph << std::endl;
 	}
 	/*if (graph.depthFirstSearch('s', path, b, usedVertices)) {
 
@@ -65,6 +65,7 @@ unsigned int main()
 		std::cout << graph;
 	}*/
 
+	std::cout << "\n\nResult:\n";
 	std::cout << graph;
 
 	system("PAUSE");
@@ -79,10 +80,10 @@ void aug(Graph& graph, std::vector<Edge*> path, unsigned int bottleneck) {
 	// Change the flows
 	path[0]->m_flow += bottleneck;
 	for (unsigned int i = 1; i < path.size(); i++) {
-		// Check if the edge is a forward edge
-		std::cout << "path[i - 1].m_tail: " << path[i - 1]->m_tail << std::endl;
-		std::cout << "path[i].m_head: " << path[i]->m_head << std::endl;
+		//std::cout << "path[i - 1].m_tail: " << path[i - 1]->m_tail << std::endl;
+		//std::cout << "path[i].m_head: " << path[i]->m_head << std::endl;
 
+		// Check if the edge is a forward edge
 		// Need both side of the or, the left side identfies the general case of a forward edge and the right case identifies a forward edge that comes after a backward one
 		if ((path[i - 1]->m_tail == path[i]->m_head && !lastEdgeWasBackwards) || (path[i - 1]->m_head == path[i]->m_head && lastEdgeWasBackwards)) {
 			path[i]->m_flow += bottleneck;
