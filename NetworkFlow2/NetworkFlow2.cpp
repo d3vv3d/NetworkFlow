@@ -74,6 +74,8 @@ unsigned int main()
 
 void aug(Graph& graph, std::vector<Edge*> path, unsigned int bottleneck) {
 	
+	bool lastEdgeWasBackwards = false;
+
 	// Change the flows
 	path[0]->m_flow += bottleneck;
 	for (unsigned int i = 1; i < path.size(); i++) {
@@ -81,11 +83,14 @@ void aug(Graph& graph, std::vector<Edge*> path, unsigned int bottleneck) {
 		std::cout << "path[i - 1].m_tail: " << path[i - 1]->m_tail << std::endl;
 		std::cout << "path[i].m_head: " << path[i]->m_head << std::endl;
 
-		if (path[i - 1]->m_tail == path[i]->m_head) {
+		// Need both side of the or, the left side identfies the general case of a forward edge and the right case identifies a forward edge that comes after a backward one
+		if ((path[i - 1]->m_tail == path[i]->m_head && !lastEdgeWasBackwards) || (path[i - 1]->m_head == path[i]->m_head && lastEdgeWasBackwards)) {
 			path[i]->m_flow += bottleneck;
+			lastEdgeWasBackwards = false;
 		}
 		else {
 			path[i]->m_flow -= bottleneck;
+			lastEdgeWasBackwards = true;
 		}
 	}
 }
