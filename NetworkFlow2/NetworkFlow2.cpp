@@ -75,7 +75,7 @@ unsigned int main()
 void aug(Graph& graph, std::vector<Edge*> path, unsigned int bottleneck) {
 	
 	// Change the flows
-	graph.m_edges[0].m_flow += bottleneck;
+	path[0]->m_flow += bottleneck;
 	for (unsigned int i = 1; i < path.size(); i++) {
 		// Check if the edge is a forward edge
 		std::cout << "path[i - 1].m_tail: " << path[i - 1]->m_tail << std::endl;
