@@ -18,6 +18,7 @@ public:
 
 	//std::vector<Edge> depthFirstSearch(char root);
 	bool depthFirstSearch(char root, std::vector<Edge*>& path, unsigned int& bottleneck, std::set<char> usedVertices);
+	unsigned int maxFlow();
 
 	std::vector<Edge> m_edges;
 

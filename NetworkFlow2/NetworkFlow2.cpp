@@ -36,100 +36,12 @@ unsigned int main()
 
 	std::cout << graph;
 
-	/*for (std::vector<Edge> path = graph.depthFirstSearch('s'); path.back().m_tail == 't'; path = graph.depthFirstSearch('s')) {
-		//aug(graph, path);
-	}*/
+	std::cout << "\n\nMax Flow & Min Cut: " << graph.maxFlow() << std::endl;
 
-	std::vector<Edge*> path;
-	unsigned int b = UINT_MAX;
-	std::set<char> usedVertices;
-	while (graph.depthFirstSearch('s', path, b, usedVertices)) {
-		aug(graph, path, b);
-
-		/*std::cout << "\npath:\n";
-		for (int i = 0; i < path.size(); i++) {
-			std::cout << *path[i] << std::endl;
-		}*/
-
-		// Reset values
-		path.clear();
-		b = UINT_MAX;
-
-		//std::cout << std::endl << graph << std::endl;
-	}
-	/*if (graph.depthFirstSearch('s', path, b, usedVertices)) {
-
-		aug(graph, path, b);
-		std::cout << b << std::endl;
-
-		std::cout << graph;
-	}*/
-
-	std::cout << "\n\nResult:\n";
+	std::cout << "\nResult:\n";
 	std::cout << graph;
 
 	system("PAUSE");
 
     return 0;
 }
-
-void aug(Graph& graph, std::vector<Edge*> path, unsigned int bottleneck) {
-	
-	bool lastEdgeWasBackwards = false;
-
-	// Change the flows
-	path[0]->m_flow += bottleneck;
-	for (unsigned int i = 1; i < path.size(); i++) {
-		//std::cout << "path[i - 1].m_tail: " << path[i - 1]->m_tail << std::endl;
-		//std::cout << "path[i].m_head: " << path[i]->m_head << std::endl;
-
-		// Check if the edge is a forward edge
-		// Need both side of the or, the left side identfies the general case of a forward edge and the right case identifies a forward edge that comes after a backward one
-		if ((path[i - 1]->m_tail == path[i]->m_head && !lastEdgeWasBackwards) || (path[i - 1]->m_head == path[i]->m_head && lastEdgeWasBackwards)) {
-			path[i]->m_flow += bottleneck;
-			lastEdgeWasBackwards = false;
-		}
-		else {
-			path[i]->m_flow -= bottleneck;
-			lastEdgeWasBackwards = true;
-		}
-	}
-}
-
-// Original aug()
-/*
-void aug(Graph& graph, std::vector<Edge> path) {
-
-	// Determine the bottleneck
-	unsigned int b = path[0].m_capacity - path[0].m_flow;
-
-	for (unsigned int i = 1; i < path.size(); i++) {
-		// Check if the edge is a forward edge
-		if (path[i - 1].m_tail == path[i].m_head) {
-			unsigned int tmp = path[i].m_capacity - path[i].m_flow;
-			if (tmp < b) {
-				b = tmp;
-			}
-		}
-		// Must be a back edge
-		else {
-			unsigned int tmp = path[i].m_flow;
-			if (tmp < b) {
-				b = tmp;
-			}
-		}
-	}
-
-	// Change the flows
-	path[0].m_flow += b;
-	for (unsigned int i = 1; i < path.size(); i++) {
-		// Check if the edge is a forward edge
-		if (path[i - 1].m_tail == path[i].m_head) {
-			path[i].m_flow += b;
-		}
-		else {
-			path[i].m_flow -= b;
-		}
-	}
-}
-*/

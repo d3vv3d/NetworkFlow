@@ -80,6 +80,59 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge*>& path, unsigned int& 
 	return false;
 }
 
+void aug(Graph& graph, std::vector<Edge*> path, unsigned int bottleneck) {
+
+	bool lastEdgeWasBackwards = false;
+
+	// Change the flows
+	path[0]->m_flow += bottleneck;
+	for (unsigned int i = 1; i < path.size(); i++) {
+		//std::cout << "path[i - 1].m_tail: " << path[i - 1]->m_tail << std::endl;
+		//std::cout << "path[i].m_head: " << path[i]->m_head << std::endl;
+
+		// Check if the edge is a forward edge
+		// Need both side of the or, the left side identfies the general case of a forward edge and the right case identifies a forward edge that comes after a backward one
+		if ((path[i - 1]->m_tail == path[i]->m_head && !lastEdgeWasBackwards) || (path[i - 1]->m_head == path[i]->m_head && lastEdgeWasBackwards)) {
+			path[i]->m_flow += bottleneck;
+			lastEdgeWasBackwards = false;
+		}
+		else {
+			path[i]->m_flow -= bottleneck;
+			lastEdgeWasBackwards = true;
+		}
+	}
+}
+
+unsigned int Graph::maxFlow() {
+	std::vector<Edge*> path;
+	unsigned int b = UINT_MAX;
+	std::set<char> usedVertices;
+	while (depthFirstSearch('s', path, b, usedVertices)) {
+		aug(*this, path, b);
+
+		/*std::cout << "\npath:\n";
+		for (int i = 0; i < path.size(); i++) {
+		std::cout << *path[i] << std::endl;
+		}*/
+
+		// Reset values
+		path.clear();
+		b = UINT_MAX;
+
+		//std::cout << std::endl << graph << std::endl;
+	}
+
+	unsigned int minCut = 0;
+
+	for (int i = 0; i < m_edges.size(); i++) {
+		if (m_edges[i].m_tail == 't') {
+			minCut += m_edges[i].m_flow;
+		}
+	}
+
+	return minCut;
+}
+
 // Willnot always find a path to t if there is one, needs a dead end case, also this doe not preventy cycles, whoops
 // Do not add edges to result unitl 't' has been reached, also
 // bool Graph::depthFirstSearch(char root, std::vector
