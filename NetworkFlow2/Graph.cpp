@@ -17,7 +17,7 @@ void Graph::addEdge(char head, char tail, unsigned int capacity) {
 	m_edges.push_back(Edge(head, tail, capacity));
 }
 
-bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, unsigned int& bottleneck, std::set<char> usedVertices) {
+bool Graph::depthFirstSearch(char root, std::vector<Edge*>& path, unsigned int& bottleneck, std::set<char> usedVertices) {
 	// Update usedVertices to prevent cycling
 	usedVertices.emplace(root);
 	/*for (std::set<char>::iterator iter = usedVertices.begin(); iter != usedVertices.end(); iter++) {
@@ -43,7 +43,7 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, unsigned int& b
 			// There exists a path to t using the current edge 
 			if (depthFirstSearch(m_edges[i].m_tail, path, bottleneck, usedVertices)) {
 				// Add the current edge to the path
-				path.insert(path.begin(), m_edges[i]);
+				path.insert(path.begin(), &m_edges[i]);
 
 				// Check if the bottleneck should be updated & update if necessary
 				unsigned int tmp = m_edges[i].m_capacity - m_edges[i].m_flow;
@@ -62,7 +62,7 @@ bool Graph::depthFirstSearch(char root, std::vector<Edge>& path, unsigned int& b
 			// There exists a path to t using the current edge 
 			if (depthFirstSearch(m_edges[i].m_head, path, bottleneck, usedVertices)) {
 				// Add the current edge to the path
-				path.insert(path.begin(), m_edges[i]);
+				path.insert(path.begin(), &m_edges[i]);
 
 				// Check if the bottleneck should be updated & update if necessary
 				unsigned int tmp = m_edges[i].m_flow;

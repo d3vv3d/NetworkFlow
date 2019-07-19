@@ -3,6 +3,7 @@
 #include <vector>
 #include <iterator>
 #include <set>
+#include <memory>
 
 #include "Edge.h"
 
@@ -16,7 +17,7 @@ public:
 	void addEdge(char head, char tail, unsigned int capacity);
 
 	//std::vector<Edge> depthFirstSearch(char root);
-	bool depthFirstSearch(char root, std::vector<Edge>& path, unsigned int& bottleneck, std::set<char> usedVertices);
+	bool depthFirstSearch(char root, std::vector<Edge*>& path, unsigned int& bottleneck, std::set<char> usedVertices);
 
 	std::vector<Edge> m_edges;
 

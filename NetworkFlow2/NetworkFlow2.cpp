@@ -5,7 +5,7 @@
 
 #include "Graph.h"
 
-void aug(Graph& graph, std::vector<Edge> path, unsigned int bottleneck);
+void aug(Graph& graph, std::vector<Edge*> path, unsigned int bottleneck);
 
 unsigned int main()
 {
@@ -40,7 +40,7 @@ unsigned int main()
 		//aug(graph, path);
 	}*/
 
-	std::vector<Edge> path;
+	std::vector<Edge*> path;
 	unsigned int b = UINT_MAX;
 	std::set<char> usedVertices;
 	while (graph.depthFirstSearch('s', path, b, usedVertices)) {
@@ -48,7 +48,7 @@ unsigned int main()
 
 		std::cout << "\npath:\n";
 		for (int i = 0; i < path.size(); i++) {
-			std::cout << path[i] << std::endl;
+			std::cout << *path[i] << std::endl;
 		}
 
 		// Reset values
@@ -72,20 +72,20 @@ unsigned int main()
     return 0;
 }
 
-void aug(Graph& graph, std::vector<Edge> path, unsigned int bottleneck) {
+void aug(Graph& graph, std::vector<Edge*> path, unsigned int bottleneck) {
 	
 	// Change the flows
 	graph.m_edges[0].m_flow += bottleneck;
 	for (unsigned int i = 1; i < path.size(); i++) {
 		// Check if the edge is a forward edge
-		std::cout << "path[i - 1].m_tail: " << path[i - 1].m_tail << std::endl;
-		std::cout << "path[i].m_head: " << path[i].m_head << std::endl;
+		std::cout << "path[i - 1].m_tail: " << path[i - 1]->m_tail << std::endl;
+		std::cout << "path[i].m_head: " << path[i]->m_head << std::endl;
 
-		if (graph.m_edges[i - 1].m_tail == graph.m_edges[i].m_head) {
-			graph.m_edges[i].m_flow += bottleneck;
+		if (path[i - 1]->m_tail == path[i]->m_head) {
+			path[i]->m_flow += bottleneck;
 		}
 		else {
-			graph.m_edges[i].m_flow -= bottleneck;
+			path[i]->m_flow -= bottleneck;
 		}
 	}
 }
